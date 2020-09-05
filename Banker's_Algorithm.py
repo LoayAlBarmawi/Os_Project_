@@ -1,0 +1,88 @@
+def compare(i):
+    for j in range(resources):
+        if need[i][j] > int(available[j]):
+            return 0
+    return 1
+
+
+processes = int(input("enter number of processes"))
+resources = int(input("enter number of resources"))
+allocation = [[0 for x in range(resources)] for y in range(processes)]
+maximum = [[0 for x in range(resources)] for y in range(processes)]
+need = [[0 for x in range(resources)] for y in range(processes)]
+available = []
+req = []
+# for input remove comments
+# for i in range(processes):
+# for j in range(resources):
+# allocation[i][j] = int(input("insert allocated " + str(j) + " for p" + str(i)))
+# maximum[i][j] = int(input("insert max " + str(j) + " for p" + str(i)))
+allocation = [[0, 1, 0], [2, 0, 0], [3, 0, 2], [2, 1, 1], [0, 0, 2]]
+maximum = [[7, 5, 3], [3, 2, 2], [9, 0, 2], [2, 2, 2], [4, 3, 3]]
+for j in range(resources):
+    available.append((input("insert available for " + str(j))))
+sel = int(input("select process"))
+for j in range(resources):
+    req.append(int(input("insert request for " + str(j))))
+print("allocation " + str(allocation))
+print("max        " + str(maximum))
+print("available  " + str(available))
+need1 = []
+for j in range(resources):
+    need1.append(maximum[sel][j] - allocation[sel][j])
+print(need1)
+for j in range(resources):
+    if need1[j] < req[j]:
+        print("error")
+        exit()
+print("need is bigger than or equals request")
+for j in range(resources):
+    if int(available[j]) >= req[j]:
+        print("yes")
+        continue
+    else:
+        print("wait")
+        exit()
+print("available is bigger than or equals request")
+for j in range(resources):
+    available[j] = str(int(available[j]) - req[j])
+for j in range(resources):
+    allocation[sel][j] = allocation[sel][j] + req[j]
+for i in range(processes):
+    for j in range(resources):
+        need[i][j] = maximum[i][j] - allocation[i][j]
+print("allocation " + str(allocation))
+print("max        " + str(maximum))
+print("available  " + str(available))
+print("need       " + str(need))
+done = []
+order = []
+for i in range(processes):
+    done.append(0)
+    order.append(0)
+count = 0
+while count < processes:
+    t = 0
+    for i in range(processes):
+        if done[i] == 0:
+            if (compare(i)):
+                order[count] = i
+                count += 1
+                done[i] = 1
+                t = 1
+                for j in range(resources):
+                    available[j] = str(allocation[i][j] + int(available[j]))
+    if t == 0:
+        break
+if count < processes:
+    deadlocked = []
+    for i in range(processes):
+        if i not in order:
+            deadlocked.append(i)
+    print("deadlocked processes: " + str(deadlocked))
+
+    print('The system is Unsafe')
+else:
+    print("The system is Safe")
+    print("order of: ", order)
+    print("Available:", available)
