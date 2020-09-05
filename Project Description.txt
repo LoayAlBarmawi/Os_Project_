@@ -1,0 +1,11 @@
+The screenshots provided were the solution to the 
+banker's algorithm homework as a demo and the code 
+has ready inserted values for processes for the sake 
+of time-saving but the code that allows you to insert 
+your own values is provided as a comment.
+the screenshots and code snippets required for the 
+multithreading part of the project are in the word document
+along with a paper showing the process of making the project.
+part1.py is the multithreaded version
+part2.py is the single threaded version
+part3.py is banker's algorithm
